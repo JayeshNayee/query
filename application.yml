@@ -1,0 +1,31 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8765/eureka/
+  instance:
+    hostname: localhost
+server:
+  port: 8098
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+      - id: USER-SERVICE
+        uri: lb://USER-SERVICE
+        predicates:
+           - Path=/user/**
+           
+      - id: ADMIN-SERVICE
+        uri: lb://ADMIN-SERVICE
+        predicates:
+           - Path=/admin/**
+  
+      - id: AUTH-SERVICES
+        uri: lb://AUTH-SERVICES
+        predicates:
+           - Path=/Auth/**
